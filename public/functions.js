@@ -6,6 +6,23 @@ EcwidApp.init({
 	autoheight: true,
 });
 
+const storeData = EcwidApp.getPayload();
+const storeId = storeData.store_id;
+const accessToken = storeData.access_token;
+const language = storeData.lang;
+const viewMode = storeData.view_mode;
+
+if (storeData) {
+	fetch('https://urway-ecwid.herokuapp.com/v1/urway/ecwid/print', {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+		},
+		body: JSON.stringify({
+			...storeData,
+		}),
+	}).then((data) => console.log(data));
+}
 // Reads values from HTML page and sends them to application config
 // To fill values successfully, the input, select or textarea elements on a page must have 'data-name' and 'data-visibility' attributes set. See appProto.html for examples
 
