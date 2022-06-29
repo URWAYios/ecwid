@@ -21,7 +21,7 @@ if (storeData) {
 		body: JSON.stringify({
 			...storeData,
 		}),
-	}).then((data) => console.log(data));
+	}).catch((e) => console.log(e));
 }
 // Reads values from HTML page and sends them to application config
 // To fill values successfully, the input, select or textarea elements on a page must have 'data-name' and 'data-visibility' attributes set. See appProto.html for examples
