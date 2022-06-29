@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
 	console.log('you hit urway api');
-	res.send(200);
+	res.status(200);
 });
 router.post('/print', (req, res) => {
 	console.log(req.body);

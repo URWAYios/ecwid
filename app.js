@@ -11,7 +11,7 @@ const corsOptions = {
 };
 
 const app = express();
-
+app.use(express.json());
 app.use(express.static('./public'));
 app.use(cors(corsOptions));
 app.use('/v1/urway/ecwid', reqeustpayment);
