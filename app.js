@@ -17,7 +17,10 @@ app.use(express.static('./public'));
 app.use(cors(corsOptions));
 app.use('/v1/urway/ecwid', reqeustpayment);
 
+app.use((err, req, res, next) => {
+	console.error('the app route', err);
+	res.status(500).send(err);
+});
 app.listen(PORT, () => {
 	console.log('app is running on ' + PORT);
-	console.log(process.env.TEST + '.....' + process.env.LIVE);
 });

@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+
 const EncryptionHelper = (function () {
 	function decryptText(cipher_alg, key, text, encoding) {
 		var bText = Buffer.from(text, encoding);
@@ -19,16 +20,23 @@ const EncryptionHelper = (function () {
 })();
 
 const decryptData = (client_sec, payload) => {
-	let encryption_key = client_sec.slice(0, 16);
-	let originalBase64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-	let algorithm = EncryptionHelper.CIPHERS.AES_128_CBC;
-	let decrypted = EncryptionHelper.decryptText(algorithm, encryption_key, originalBase64, 'base64');
-	if (typeof payload == 'object') {
-		let payloadObject = JSON.parse(decrypted);
-		return payloadObject;
-	} else {
-		return decrypted;
-	}
+	return new Promise((resloved, rejected) => {
+		let encryption_key = client_sec.slice(0, 16);
+		let originalBase64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+		let algorithm = EncryptionHelper.CIPHERS.AES_128_CBC;
+		try {
+			let decrypted = EncryptionHelper.decryptText(algorithm, encryption_key, originalBase64, 'base64');
+			if (typeof payload == 'object') {
+				let payloadObject = JSON.parse(decrypted);
+				resloved(payloadObject);
+			} else {
+				resloved(decrypted);
+			}
+		} catch (e) {
+			console.log('secndoary function', e);
+			rejected(e);
+		}
+	});
 };
 
 export { EncryptionHelper, decryptData };
