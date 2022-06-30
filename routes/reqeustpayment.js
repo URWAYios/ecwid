@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
 	if (req.body) {
-		let data = decryptData(process.env.CLIENT_KEY, req.body.data);
+		let data = decryptData(process.env.CLIENT_SECRET, req.body.data);
 		console.log(data);
 		res.send(data).status(200);
 	}

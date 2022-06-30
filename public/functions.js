@@ -1,16 +1,12 @@
 // Initialize the application
 const save = document.querySelector('#save');
 EcwidApp.init({
-	app_id: 'custom-app-76468716-1 ', // use your application namespace
+	app_id: 'custom-app-76468716-1', // use your application namespace
 	autoloadedflag: true,
 	autoheight: true,
 });
 
 const storeData = EcwidApp.getPayload();
-const storeId = storeData.store_id;
-const accessToken = storeData.access_token;
-const language = storeData.lang;
-const viewMode = storeData.view_mode;
 
 if (storeData) {
 	fetch('https://urway-ecwid.herokuapp.com/v1/urway/ecwid/print', {
