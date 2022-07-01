@@ -1,5 +1,6 @@
-import express, { application } from 'express';
+import express from 'express';
 import { EncryptionHelper, decryptData } from '../controller/decode.js';
+import { makePayment } from '../controller/makePayment.js';
 
 const router = express.Router();
 
@@ -7,9 +8,9 @@ router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
-			console.log('from main route', data);
 			let paymentData = JSON.parse(data);
-			console.log('after being parsed to string', paymentData);
+			let response = await makePayment(paymentData);
+			console.log(response);
 			res.status(200).redirect('https://urway.sa/dev/php');
 		} catch (err) {
 			console.log('from route', err);

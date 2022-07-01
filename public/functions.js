@@ -86,7 +86,7 @@ function setValuesForPage(applicationConfig) {
 		if (fieldVisibility !== undefined && applicationConfig[fieldVisibility][allInputs[i].dataset.name] !== undefined) {
 			if (allInputs[i].tagName == 'INPUT') {
 				if (allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio') {
-					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == 'true';
+					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == true;
 					checkFieldChange(allInputs[i]);
 				}
 				if (allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
@@ -106,7 +106,7 @@ function setValuesForPage(applicationConfig) {
 
 var initialConfig = {
 	private: {
-		termindid: '',
+		terminalid: '',
 		password: '',
 		testmode: false,
 		merchantkey: '',
@@ -126,9 +126,9 @@ function createUserData() {
 	});
 
 	// Saves data for public app config
-	EcwidApp.setAppPublicConfig(initialConfig.public, function (value) {
-		console.log('Initial public user preferences saved!');
-	});
+	// EcwidApp.setAppPublicConfig(initialConfig.public, function (value) {
+	// 	console.log('Initial public user preferences saved!');
+	// });
 
 	// Function to prepopulate values of select, input and textarea elements based on default settings for new accounts
 	setValuesForPage(initialConfig);
