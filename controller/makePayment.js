@@ -1,6 +1,6 @@
 import { makeRequest } from './fetch.js';
 const makePayment = async (paymentData) => {
-	const { referenceTransactionId } = paymentData.cart;
+	const { referenceTransactionId } = paymentData.cart.order;
 	console.log(referenceTransactionId);
 	console.log(paymentData.cart);
 	const { erminalid, merchantkey, password, mode, returnUrl, storeId, token } = paymentData;
