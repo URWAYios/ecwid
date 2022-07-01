@@ -18,8 +18,8 @@ app.use(cors(corsOptions));
 app.use('/v1/urway/ecwid', reqeustpayment);
 
 app.use((err, req, res, next) => {
-	console.error('the app route', err);
-	res.status(500).send(err);
+	console.error('final exit route', err);
+	res.status(500).json(err);
 });
 app.listen(PORT, () => {
 	console.log('app is running on ' + PORT);

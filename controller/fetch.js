@@ -5,7 +5,7 @@ const makeRequest = async (url, type, body) => {
 		let res = await fetch(url, {
 			method: type,
 			headers: {
-				'Content-type': 'application/json; charset UTF=8;',
+				'Content-type': 'application/json; charset=UTF-8',
 			},
 			body: JSON.stringify(body),
 		});
