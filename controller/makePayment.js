@@ -1,6 +1,8 @@
 import { makeRequest } from './fetch.js';
 const makePayment = async (paymentData) => {
 	const { referenceTransactionId } = paymentData.cart;
+	console.log(referenceTransactionId);
+	console.log(paymentData.cart);
 	const { erminalid, merchantkey, password, mode, returnUrl, storeId, token } = paymentData;
 	// first update the order in the ecwid admin panel
 	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
