@@ -10,6 +10,11 @@ div#appContent {
     padding: 20px;
     max-width: 980px;
 }
+.butW{
+    display: flex;
+    align-items: center;
+    justify-content:space-between
+}
 
 
 /* Styles for Back button */

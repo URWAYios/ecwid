@@ -10,9 +10,15 @@ const makeRequest = async (url, type, body) => {
 			body: JSON.stringify(body),
 		});
 		console.log(res);
-		if (type != 'GET') {
-			let result = await res.json();
-			return result;
+		if (res.status !== 200) {
+			throw new Error('something wrong occured');
+		} else {
+			if (type != 'GET') {
+				let result = await res.json();
+				return result;
+			} else {
+				return 'sucess';
+			}
 		}
 	} catch (err) {
 		console.log(err);

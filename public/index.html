@@ -404,10 +404,13 @@
 														</div>
 														<div class="inline-alert inline-alert--warning">only SAR will be accepted</div>
 													</div>
-													<div>
-														<button style="margin-left: 70%" class="btn btn-default btn-medium" id="save">
-															sava data
-														</button>
+													<div class="butW">
+														<div>
+															<button class="btn btn-default btn-medium" id="save">sava data</button>
+														</div>
+														<div>
+															<button class="btn btn-default btn-medium" id="reset">reset values</button>
+														</div>
 													</div>
 												</div>
 												<!-- Payment instructions block START -->
@@ -428,8 +431,19 @@
 		<script src="https://d35z3p2poghz10.cloudfront.net/ecwid-sdk/css/1.3.13/ecwid-app-ui.min.js"></script>
 
 		<script>
+			const initial = {
+				private: {
+					terminalid: '',
+					password: '',
+					testmode: false,
+					merchantkey: '',
+					installed: 'yes',
+				},
+				public: {},
+			};
 			const testMode = document.querySelector('#testmode');
 			const showAlert = document.querySelector('#testAlert');
+			const reset = document.querySelector('#reset');
 			const elms = document.querySelectorAll(
 				'.field__input, .field__select, .field__textarea, .radio, .custom-checkbox__input'
 			);
@@ -451,6 +465,9 @@
 				save.classList.add('btn-loading');
 				initFieldset();
 				saveUserData();
+			});
+			reset.addEventListener('click', () => {
+				resetUserData(initial);
 			});
 		</script>
 	</body>
