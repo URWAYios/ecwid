@@ -5,7 +5,7 @@ const makePayment = async (paymentData) => {
 	// first update the order in the ecwid admin panel
 	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
 	try {
-		let res = await makeRequest(url, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
+		let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		return res;
