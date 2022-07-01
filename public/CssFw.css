@@ -1,7 +1,9 @@
 /* Custom styles for app page */
 
 /* Styles for main app container */
-
+.app-page-top{
+    border-radius:20px;
+}
 div#appContent {
     background: white !important;
     margin: 0px auto;
@@ -42,4 +44,8 @@ div#appContent {
 }
 .customeHeight{
     height:50px !important
+}
+
+.app-page-bottom .app-page-bottom--like-a-card {
+display: none;
 }

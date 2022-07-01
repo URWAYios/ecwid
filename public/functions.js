@@ -154,12 +154,29 @@ function saveUserData() {
 
 	EcwidApp.setAppStorage(saveData.private, function (savedData) {
 		console.log('Private preferences saved!');
+		fetch('https://urway-ecwid.herokuapp.com/v1/urway/ecwid/print', {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+			body: JSON.stringify(saveData.private),
+		})
+			.then((data) => {
+				console.log(data);
+				save.classList.remove('btn-loading');
+				save.innerText = 'data is saved';
+				setTimeout(() => {
+					save.innerText = 'save';
+				}, 5000);
+			})
+			.catch((e) => {
+				console.log(e);
+				save.innerText = 'data not save ';
+				setTimeout(() => {
+					save.innerText = 'save';
+				}, 5000);
+			});
 	});
-
-	EcwidApp.setAppPublicConfig(saveData.public, function (savedData) {
-		console.log('Public preferences saved!');
-	});
-	save.classList.remove('btn-loading');
 }
 
 function resetUserData(initialConfig) {
