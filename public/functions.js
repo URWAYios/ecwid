@@ -151,7 +151,7 @@ function getUserData() {
 
 function saveUserData() {
 	var saveData = readValuesFromPage();
-	let { testmode } = saveData;
+	let { testmode } = saveData.private;
 	if (testmode == true) testmode = 'true';
 	else {
 		testmode = 'false';
