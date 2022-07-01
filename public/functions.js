@@ -86,7 +86,7 @@ function setValuesForPage(applicationConfig) {
 		if (fieldVisibility !== undefined && applicationConfig[fieldVisibility][allInputs[i].dataset.name] !== undefined) {
 			if (allInputs[i].tagName == 'INPUT') {
 				if (allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio') {
-					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == 'true';
+					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == 'true' ? true : false;
 					checkFieldChange(allInputs[i]);
 				}
 				if (allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
