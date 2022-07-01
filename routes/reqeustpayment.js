@@ -7,8 +7,10 @@ router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
-			console.log(data);
-			res.send(data).status(200);
+			console.log('from main route', data);
+			let paymentData = JSON.parse(data);
+			console.log('after being parsed to string', paymentData);
+			res.status(200).redirect('https://urway.sa/dev/php');
 		} catch (err) {
 			console.log('from route', err);
 			next(err);

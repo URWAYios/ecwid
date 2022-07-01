@@ -154,7 +154,6 @@ function saveUserData() {
 
 	EcwidApp.setAppStorage(saveData.private, function (savedData) {
 		console.log('Private preferences saved!');
-
 		fetch('https://urway-ecwid.herokuapp.com/v1/urway/ecwid/print', {
 			method: 'POST',
 			headers: {
