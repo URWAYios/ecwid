@@ -156,7 +156,7 @@ function saveUserData() {
 	else {
 		testmode = 'false';
 	}
-	saveData.testmode = testmode;
+	saveData.private.testmode = testmode;
 
 	EcwidApp.setAppStorage(saveData.private, function (savedData) {
 		console.log('Private preferences saved!');
