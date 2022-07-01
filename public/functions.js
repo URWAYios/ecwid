@@ -75,7 +75,7 @@ function setValuesForPage(applicationConfig) {
 		applicationConfig = applicationConfigTemp;
 	}
 
-	applicationConfig.public = JSON.parse(applicationConfig.public);
+	// applicationConfig.public = JSON.parse(applicationConfig.public);
 	var allInputs = document.querySelectorAll('input, select, textarea');
 
 	// Set values from config for input, select, textarea elements
@@ -86,7 +86,7 @@ function setValuesForPage(applicationConfig) {
 		if (fieldVisibility !== undefined && applicationConfig[fieldVisibility][allInputs[i].dataset.name] !== undefined) {
 			if (allInputs[i].tagName == 'INPUT') {
 				if (allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio') {
-					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == true;
+					allInputs[i].checked = applicationConfig[fieldVisibility][allInputs[i].dataset.name] == 'true';
 					checkFieldChange(allInputs[i]);
 				}
 				if (allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
@@ -108,14 +108,14 @@ var initialConfig = {
 	private: {
 		terminalid: '',
 		password: '',
-		testmode: false,
+		testmode: 'false',
 		merchantkey: '',
 		installed: 'yes',
 	},
 	public: {},
 };
 
-initialConfig.public = JSON.stringify(initialConfig.public);
+// initialConfig.public = JSON.stringify(initialConfig.public);
 
 // Executes when we have a new user install the app. It creates and sets the default data using Ecwid JS SDK and Application storage
 
