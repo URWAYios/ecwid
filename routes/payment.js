@@ -14,20 +14,20 @@ router.post('/', async (req, res, next) => {
 			let paymentData = JSON.parse(data);
 			let response = await makePayment(paymentData);
 			console.log(response);
-			res.status(200).redirect('https://urway.sa/dev/php');
+			res.status(200).redirect(response);
 		} catch (err) {
-			console.log('from route', err);
+			console.log('from payment route', err);
 			next(err);
 		}
 	}
 });
-router.post('/validate_payment', (req, res) => {
-	console.log(req.query);
-	res.send(req.query);
-});
-router.post('/print', (req, res) => {
-	console.log(req.body);
-	res.status(200).send(req.body);
-});
+// router.post('/validate_payment', (req, res) => {
+// 	console.log(req.query);
+// 	res.send(req.query);
+// });
+// router.post('/print', (req, res) => {
+// 	console.log(req.body);
+// 	res.status(200).send(req.body);
+// });
 
 export default router;
