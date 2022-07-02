@@ -8,6 +8,9 @@ router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
+			if (typeof data == 'object') {
+				res.status(200).send(data);
+			}
 			let paymentData = JSON.parse(data);
 			let response = await makePayment(paymentData);
 			console.log(response);
@@ -17,6 +20,10 @@ router.post('/', async (req, res, next) => {
 			next(err);
 		}
 	}
+});
+router.post('/validate_payment', (req, res) => {
+	console.log(req.query);
+	res.send(req.query);
 });
 router.post('/print', (req, res) => {
 	console.log(req.body);

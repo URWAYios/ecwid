@@ -1,9 +1,11 @@
 /* Custom styles for app page */
 
 /* Styles for main app container */
-.app-page-top{
-    border-radius:20px;
+
+.named-area{
+max-width: 700px;
 }
+
 div#appContent {
     background: white !important;
     margin: 0px auto;
