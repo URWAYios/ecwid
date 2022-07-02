@@ -8,7 +8,6 @@ const makeRequest = async (url, type, body) => {
 		},
 		body: JSON.stringify(body),
 	});
-	console.log(res);
 	if (res.status !== 200) {
 		throw new Error('something wrong occured');
 	} else {
