@@ -21,10 +21,10 @@ router.post('/', async (req, res, next) => {
 		}
 	}
 });
-// router.post('/validate_payment', (req, res) => {
-// 	console.log(req.query);
-// 	res.send(req.query);
-// });
+router.post('/validate_payment', (req, res) => {
+	console.log(req.query);
+	res.send(req.query);
+});
 // router.post('/print', (req, res) => {
 // 	console.log(req.body);
 // 	res.status(200).send(req.body);
