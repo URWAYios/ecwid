@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
 			console.log(response);
 			res.status(200).redirect(response);
 		} catch (err) {
-			console.log('from payment route', err);
+			console.log('from payment route', err.message);
 			next(err);
 		}
 	}
