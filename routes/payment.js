@@ -9,6 +9,7 @@ router.post('/', async (req, res, next) => {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
 			if (typeof data == 'object') {
+				console.log('enter checking the typeof');
 				res.status(200).send(data);
 			}
 			let paymentData = JSON.parse(data);

@@ -4,7 +4,7 @@ import makeHash from '../utilit/hash256.js';
 const makePayment = async (paymentData) => {
 	const { referenceTransactionId, id, total, email } = paymentData.cart.order;
 	const { terminalid, merchantkey, password, testmode } = paymentData.merchantAppSettings;
-	const { currency } = payment.cart;
+	const { currency } = paymentData.cart;
 	console.log(paymentData);
 	const { returnUrl, storeId, token } = paymentData;
 	// first update the order in the ecwid admin panel
