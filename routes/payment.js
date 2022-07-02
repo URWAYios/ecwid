@@ -21,7 +21,7 @@ router.post('/', async (req, res, next) => {
 		}
 	}
 });
-router.post('/validate_payment', (req, res) => {
+router.get('/validate_payment', (req, res) => {
 	console.log(req.query);
 	res.send(req.query);
 });
