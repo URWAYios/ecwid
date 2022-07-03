@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
 router.post('/validate_payment', async (req, res, next) => {
 	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, responseHash, UserField5 } = req.body;
 	console.log(UserField5);
-	let splitThem = UserField5.split('_');
+	let splitThem = UserField5.split('|');
 	console.log(splitThem);
 	let token = splitThem[0];
 	let referenceTransactionId = splitThem[1];
