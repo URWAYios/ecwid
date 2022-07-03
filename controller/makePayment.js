@@ -10,11 +10,11 @@ const makePayment = async (paymentData) => {
 	// first update the order in the ecwid admin panel
 	// let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
 	// console.log('toawaiting payment', updateUrl);
-	// try {
-	// 	let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
-	// 	if (res.error) {
-	// 		console('switched from awaitPayment to PAID', res);
-	// 	}
+	try {
+		// 	let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
+		// 	if (res.error) {
+		// 		console('switched from awaitPayment to PAID', res);
+		// 	}
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
