@@ -23,9 +23,20 @@ router.post('/', async (req, res, next) => {
 	}
 });
 router.post('/validate_payment', async (req, res, next) => {
-	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, UserField4, responseHash } = req.body;
+	const {
+		TranId,
+		TrackId,
+		amount,
+		UserField1,
+		Result,
+		ResponseCode,
+		UserField3,
+		UserField4,
+		responseHash,
+		UserField5,
+	} = req.body;
 
-	let updateUrl = UserField3;
+	let updateUrl = `https://app.ecwid.com/api/v3/${process.env.STORE_ID}/orders/${UserField5}?token=${UserField4}`;
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
 	let updateReqeust;
 	try {
