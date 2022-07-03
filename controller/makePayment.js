@@ -15,12 +15,11 @@ const makePayment = async (paymentData) => {
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
 		let hash = await makeHash(`${id}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
-		let tk = `${storeId}|${token}`;
 		let paymentLoad = {
 			terminalId: terminalid,
 			password: password,
 			amount: total,
-			trackid: id,
+			trackid: `${id}#${storeId}`,
 			action: '1',
 			requestHash: hash,
 			merchantIp: '10.10.10.10',
@@ -30,7 +29,7 @@ const makePayment = async (paymentData) => {
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
 			udf3: merchantkey,
-			udf4: tk,
+			udf4: token,
 			udf5: referenceTransactionId,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
