@@ -32,6 +32,7 @@ const makePayment = async (paymentData) => {
 			udf4: JSON.stringify({ storeId, referenceTransactionId, token }),
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
+		// here I should also handle error
 		let redirectUrl = `${payRes.targetUrl}?paymentid=${payRes.payid}`;
 		return redirectUrl;
 		//end of payment request

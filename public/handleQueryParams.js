@@ -6,7 +6,7 @@ for (const [key, value] of url) {
 }
 
 const makeRequest = async (data) => {
-	let sendReqest = await fetch('http://localhost:8000/v1/urway/ecwid/validate_payment', {
+	let sendReqest = await fetch('https://urway-ecwid.herokuapp.com/v1/urway/ecwid/validate_payment', {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json',
