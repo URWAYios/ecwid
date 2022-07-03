@@ -15,6 +15,7 @@ const makePayment = async (paymentData) => {
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
 		let hash = await makeHash(`${id}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
+		let tk = `${storeId}|${token}`;
 		let paymentLoad = {
 			terminalId: terminalid,
 			password: password,
@@ -29,9 +30,8 @@ const makePayment = async (paymentData) => {
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
 			udf3: merchantkey,
-			udf4: storeId,
+			udf4: tk,
 			udf5: referenceTransactionId,
-			udf6: token,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		// here I should also handle error in case the reqeust to the payemnt gateway get failed
