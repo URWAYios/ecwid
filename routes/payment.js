@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
 router.post('/validate_payment', async (req, res, next) => {
 	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, responseHash, UserField5 } = req.body;
 	let splitThem = UserField5.split('_');
-	console(splitThem);
+	console.log(splitThem);
 	let token = splitThem[0];
 	let referenceTransactionId = splitThem[1];
 	let updateUrl = `https://app.ecwid.com/api/v3/${process.env.STORE_ID}/orders/${referenceTransactionId}?token=${token}`;
