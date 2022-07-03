@@ -35,12 +35,12 @@ router.post('/validate_payment', async (req, res, next) => {
 	console.log('myhash', hash);
 	console.log('serverhasg', responseHash);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
-	let updateReqeust;
+
 	try {
 		if (hash === responseHash) {
 			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
 				// update the
-				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
+				let updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {
 					console.log(updateReqeust, 'failed to update to paid');
 				}
@@ -50,7 +50,7 @@ router.post('/validate_payment', async (req, res, next) => {
 					urlToReturn: fullReturnUrl,
 				});
 			} else {
-				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
+				let updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				if (updateReqeust.error) {
 					console.log(updateReqeust.error, 'update to incomplete');
 					res.status(400).json({

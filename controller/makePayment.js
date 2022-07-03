@@ -8,7 +8,8 @@ const makePayment = async (paymentData) => {
 	console.log(paymentData);
 	const { returnUrl, storeId, token } = paymentData;
 	// first update the order in the ecwid admin panel
-	// let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
+	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
+	console.log('the working one', updateUrl);
 	// console.log('toawaiting payment', updateUrl);
 	try {
 		// 	let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
