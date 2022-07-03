@@ -30,7 +30,7 @@ router.post('/validate_payment', async (req, res, next) => {
 	let token = splitThem[0];
 	let referenceTransactionId = splitThem[1];
 	let updateUrl = `https://app.ecwid.com/api/v3/${process.env.STORE_ID}/orders/${referenceTransactionId}?token=${token}`;
-	console.log('updateUrl');
+	console.log('toPaid', updateUrl);
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
 	console.log('myhash', hash);
 	console.log('serverhasg', responseHash);
