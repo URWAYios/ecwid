@@ -15,7 +15,6 @@ const makePayment = async (paymentData) => {
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
 		let hash = await makeHash(`${id}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
-		let maketoString = `${storeId}|${referenceTransactionId}|${token}`;
 		let paymentLoad = {
 			terminalId: terminalid,
 			password: password,
@@ -30,7 +29,7 @@ const makePayment = async (paymentData) => {
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
 			udf3: merchantkey,
-			udf4: '',
+			udf4: updateUrl,
 			udf5: '',
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
