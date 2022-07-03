@@ -30,7 +30,7 @@ const makePayment = async (paymentData) => {
 			udf1: returnUrl,
 			udf3: merchantkey,
 			udf4: '',
-			udf5: `${token}_${referenceTransactionId},`,
+			udf5: `${token}|${referenceTransactionId},`,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		// here I should also handle error in case the reqeust to the payemnt gateway get failed
