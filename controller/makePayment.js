@@ -14,7 +14,8 @@ const makePayment = async (paymentData) => {
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
-		let hash = await makeHash(`${id}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
+		let orderTrack = `${id}#${storeId}`;
+		let hash = await makeHash(`${orderTrack}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
 		let paymentLoad = {
 			terminalId: terminalid,
 			password: password,
