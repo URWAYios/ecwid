@@ -9,13 +9,9 @@ const makePayment = async (paymentData) => {
 	const { returnUrl, storeId, token } = paymentData;
 	// first update the order in the ecwid admin panel
 	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
-	console.log('the working one', updateUrl);
-	// console.log('toawaiting payment', updateUrl);
+	console.log('toawaiting payment', updateUrl);
 	try {
-		// 	let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
-		// 	if (res.error) {
-		// 		console('switched from awaitPayment to PAID', res);
-		// 	}
+		let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
@@ -35,7 +31,7 @@ const makePayment = async (paymentData) => {
 			udf1: returnUrl,
 			udf3: merchantkey,
 			udf4: '',
-			udf5: `${token}|${referenceTransactionId},`,
+			udf5: `${token}|${referenceTransactionId}`,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		// here I should also handle error in case the reqeust to the payemnt gateway get failed
