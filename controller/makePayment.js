@@ -26,12 +26,15 @@ const makePayment = async (paymentData) => {
 			currency: currency,
 			customerEmail: email,
 			country: 'SA',
-			udf2: 'https://urway-ecwid.herokuapp.com/v1/urway/ecwid/validate_payment',
+			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
+			udf3: merchantkey,
+			udf4: JSON.stringify({ storeId, referenceTransactionId, token }),
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		let redirectUrl = `${payRes.targetUrl}?paymentid=${payRes.payid}`;
 		return redirectUrl;
+		//end of payment request
 	} catch (err) {
 		throw Error(err);
 	}

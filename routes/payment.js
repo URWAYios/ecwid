@@ -1,7 +1,8 @@
 import express from 'express';
 import { EncryptionHelper, decryptData } from '../controller/decode.js';
 import { makePayment } from '../controller/makePayment.js';
-
+import makeHash from '../utilit/hash256.js';
+import { makeRequest } from '../controller/fetch.js';
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
@@ -21,13 +22,51 @@ router.post('/', async (req, res, next) => {
 		}
 	}
 });
-router.get('/validate_payment', (req, res) => {
-	console.log(req.query);
-	res.send(req.query);
+router.post('/validate_payment', async (req, res, next) => {
+	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, UserField4, responseHash } = req.body;
+	const { storeId, referenceTransactionId, token } = JSON.parse(UserField4);
+	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
+	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
+	let updateReqeust;
+	try {
+		if (hash === responseHash) {
+			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
+				// update the
+				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
+				if (updateReqeust.error) {
+					console.log(updateReqeust.error, 'failed to update to paid');
+				}
+				res.status(200).json({
+					result: 'success',
+					code: 200,
+					urlToReturn: UserField1,
+				});
+			} else {
+				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
+				if (updateReqeust.error) {
+					console.log(updateReqeust.error, 'update to incomplete');
+					res.status(400).json({
+						result: 'failure',
+						code: 400,
+						urlToReturn: UserField1,
+					});
+				}
+				let urlWithReason = `${UserField1}?errorMsg=somthing_went_wrong`;
+				res.status(400).json({
+					result: 'failure',
+					code: 400,
+					urlToReturn: urlWithReason,
+				});
+			}
+		} else {
+			res.status(400).json({
+				result: 'failure',
+				code: 400,
+				urlToReturn: UserField1,
+			});
+		}
+	} catch (err) {
+		next(err);
+	}
 });
-// router.post('/print', (req, res) => {
-// 	console.log(req.body);
-// 	res.status(200).send(req.body);
-// });
-
 export default router;

@@ -2,8 +2,67 @@ body{
     height:100vh;
     display: grid;
     place-items:center;
+    background-color: #F0EBE3;
+
+}
+.con{
+display: flex;
+justify-content:center;
+align-items: center;
+flex-direction: column;
+}
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
 }
 
-h1{
-    font-size: 4rem;
+.lds-ripple div {
+    position: absolute;
+    border: 4px solid #7D9D9C;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+h3{
+    color: #576F72;
+    font-weight: bold;
+}
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
 }
