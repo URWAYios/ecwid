@@ -33,7 +33,7 @@ const makePayment = async (paymentData) => {
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
 			udf3: merchantkey,
-			udf4: returnUrl,
+			udf4: '',
 			udf5: `${token}|${referenceTransactionId},`,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
