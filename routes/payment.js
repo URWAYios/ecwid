@@ -34,6 +34,7 @@ router.post('/validate_payment', async (req, res, next) => {
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
 	console.log('myhash', hash);
 	console.log('serverhasg', responseHash);
+	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
 	try {
 		if (hash === responseHash) {
@@ -46,7 +47,7 @@ router.post('/validate_payment', async (req, res, next) => {
 				res.status(200).json({
 					result: 'success',
 					code: 200,
-					urlToReturn: UserField1,
+					urlToReturn: fullReturnUrl,
 				});
 			} else {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
@@ -55,10 +56,10 @@ router.post('/validate_payment', async (req, res, next) => {
 					res.status(400).json({
 						result: 'failure',
 						code: 400,
-						urlToReturn: UserField1,
+						urlToReturn: fullReturnUrl,
 					});
 				}
-				let urlWithReason = `${UserField1}?errorMsg=somthing_went_wrong`;
+				let urlWithReason = `${fullReturnUrl}?errorMsg=somthing_went_wrong`;
 				res.status(400).json({
 					result: 'failure',
 					code: 400,

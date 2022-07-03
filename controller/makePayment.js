@@ -8,13 +8,13 @@ const makePayment = async (paymentData) => {
 	console.log(paymentData);
 	const { returnUrl, storeId, token } = paymentData;
 	// first update the order in the ecwid admin panel
-	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
-	console.log('toawaiting payment', updateUrl);
-	try {
-		let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
-		if (res.error) {
-			console('switched from awaitPayment to PAID', res);
-		}
+	// let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
+	// console.log('toawaiting payment', updateUrl);
+	// try {
+	// 	let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
+	// 	if (res.error) {
+	// 		console('switched from awaitPayment to PAID', res);
+	// 	}
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
@@ -33,7 +33,7 @@ const makePayment = async (paymentData) => {
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
 			udf3: merchantkey,
-			udf4: '',
+			udf4: returnUrl,
 			udf5: `${token}|${referenceTransactionId},`,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
