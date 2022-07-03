@@ -15,7 +15,7 @@ const makePayment = async (paymentData) => {
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
 		let hash = await makeHash(`${id}|${terminalid}|${password}|${merchantkey}|${total}|${currency}`);
-		let maketoString = JSON.stringify({ storeId, referenceTransactionId, token });
+		let maketoString = `${storeId}|${referenceTransactionId}|${token}`;
 		let paymentLoad = {
 			terminalId: terminalid,
 			password: password,
@@ -33,7 +33,7 @@ const makePayment = async (paymentData) => {
 			udf4: maketoString,
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
-		// here I should also handle error
+		// here I should also handle error in case the reqeust to the payemnt gateway get failed
 		let redirectUrl = `${payRes.targetUrl}?paymentid=${payRes.payid}`;
 		return redirectUrl;
 		//end of payment request
