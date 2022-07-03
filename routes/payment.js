@@ -30,6 +30,7 @@ router.post('/validate_payment', async (req, res, next) => {
 	let token = splitThem[0];
 	let referenceTransactionId = splitThem[1];
 	let updateUrl = `https://app.ecwid.com/api/v3/${process.env.STORE_ID}/orders/${referenceTransactionId}?token=${token}`;
+	console.log('updateUrl');
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
 	console.log('myhash', hash);
 	console.log('serverhasg', responseHash);
@@ -40,7 +41,7 @@ router.post('/validate_payment', async (req, res, next) => {
 				// update the
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {
-					console.log(updateReqeust.error, 'failed to update to paid');
+					console.log(updateReqeust, 'failed to update to paid');
 				}
 				res.status(200).json({
 					result: 'success',
