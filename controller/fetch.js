@@ -5,6 +5,7 @@ const makeRequest = async (url, type, body) => {
 		method: type,
 		headers: {
 			'Content-type': 'application/json; charset=UTF-8',
+			'cache-control': 'no-cache',
 		},
 		body: JSON.stringify(body),
 	});
