@@ -57,11 +57,12 @@ router.post('/validate_payment', async (req, res, next) => {
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
 	console.log(ResponseCode);
-	let encode = encodeURI(`${fullReturnUrl}&errorMsg=${codes[ResponseCode || responseCode]}`);
+	let encode = encodeURI(
+		`${fullReturnUrl}&errorMsg=${codes[ResponseCode || responseCode] || 'transaction unsucessful'}`
+	);
 	try {
 		if (hash === responseHash) {
-			if (Result === 'Successful' || ResponseCode || responseCode === '000' || Result === 'Success') {
-				// update the error before going to the payment page
+			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {
 					console.log('to paid failed', updateReqeust, updateReqeust.body);
@@ -74,11 +75,10 @@ router.post('/validate_payment', async (req, res, next) => {
 			} else {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				console.log('transaction failed', updateReqeust);
-				let urlWithReason = encode;
 				res.status(200).json({
 					result: 'failure',
 					code: 400,
-					urlToReturn: urlWithReason,
+					urlToReturn: encode,
 				});
 			}
 		} else {
