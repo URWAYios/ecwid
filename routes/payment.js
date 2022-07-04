@@ -32,7 +32,7 @@ router.post('/', async (req, res, next) => {
 			console.log('checking the error code', response.error);
 			console.log('checking the type', typeof response.error);
 			if (response.error) {
-				let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
+				let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
 				let updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				console.log('initial to pg failed', updateReqeust);
 				console.log(response.error);
