@@ -27,6 +27,7 @@ router.post('/', async (req, res, next) => {
 			res.cookie('token', token);
 			res.cookie('merchantKey', merchantkey);
 			let response = await makePayment(paymentData);
+			console.log(response);
 			if (response.error) {
 				let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
@@ -44,19 +45,19 @@ router.post('/', async (req, res, next) => {
 	}
 });
 router.post('/validate_payment', async (req, res, next) => {
-	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, responseHash } = req.body;
+	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, responseCode, responseHash } = req.body;
 	let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 	let mer = req.cookies.merchantKey;
 	mer = mer + '';
 	mer = mer.trim();
-	let hash = await makeHash(`${TranId}|${mer}|${ResponseCode}|${amount}`);
+	let hash = await makeHash(`${TranId}|${mer}|${ResponseCode || responseCode}|${amount}`);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
 	console.log(ResponseCode);
-	let encode = encodeURI(`${fullReturnUrl}&errorMsg=${codes[ResponseCode]}`);
+	let encode = encodeURI(`${fullReturnUrl}&errorMsg=${codes[ResponseCode || responseCode]}`);
 	try {
 		if (hash === responseHash) {
-			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
+			if (Result === 'Successful' || ResponseCode || responseCode === '000' || Result === 'Success') {
 				// update the error before going to the payment page
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {

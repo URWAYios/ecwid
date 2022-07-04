@@ -35,7 +35,7 @@ const makePayment = async (paymentData) => {
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		// here I should also handle error in case the reqeust to the payemnt gateway get failed
-		if (payRes.payid == null || payRes.targetUrl == null || payRes.payId === '' || payRes.targetUrl === '') {
+		if (payRes.payid == null || payRes.targetUrl == null || payRes.payid === '' || payRes.targetUrl === '') {
 			return {
 				error: payRes.responseCode,
 				returnUrl,
