@@ -3,9 +3,10 @@ import { EncryptionHelper, decryptData } from '../controller/decode.js';
 import { makePayment } from '../controller/makePayment.js';
 import makeHash from '../utilit/hash256.js';
 import { makeRequest } from '../controller/fetch.js';
-import cookieHelper from '../utilit/cookieHelper.js';
+import responseDes from '../utilit/responseCodes.js';
 const router = express.Router();
 
+const codes = JSON.parse(responseDes);
 // const cookieHelper = (req, res, next) => {
 // 	console.log('cookies', req.cookies);
 // 	next();
@@ -30,7 +31,9 @@ router.post('/', async (req, res, next) => {
 				let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				console.log('initial to pg failed');
-				res.status(200).redirect(`${response.returnUrl}&errorMsg=somthing_went_wrong`);
+				console.log(response.error);
+				let encode = encodeURI(`${response.returnUrl}&errorMsg=${codes[response.error]}`);
+				res.status(200).redirect(encode);
 			}
 			console.log(response);
 			if (!response.error) res.status(200).redirect(response);
@@ -49,6 +52,8 @@ router.post('/validate_payment', async (req, res, next) => {
 	let hash = await makeHash(`${TranId}|${mer}|${ResponseCode}|${amount}`);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
+	console.log(ResponseCode);
+	let encode = encodeURI(`${fullReturnUrl}&errorMsg=${codes[ResponseCode]}`);
 	try {
 		if (hash === responseHash) {
 			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
@@ -65,18 +70,18 @@ router.post('/validate_payment', async (req, res, next) => {
 			} else {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				console.log('transaction failed', updateReqeust);
-				let urlWithReason = `${fullReturnUrl}&errorMsg=somthing_went_wrong`;
-				res.status(400).json({
+				let urlWithReason = encode;
+				res.status(200).json({
 					result: 'failure',
 					code: 400,
 					urlToReturn: urlWithReason,
 				});
 			}
 		} else {
-			res.status(400).json({
+			res.status(200).json({
 				result: 'failure',
 				code: 400,
-				urlToReturn: `${fullReturnUrl}&errorMsg=somthing_went_wrong`,
+				urlToReturn: encode,
 			});
 		}
 	} catch (err) {

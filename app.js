@@ -1,18 +1,16 @@
 import express from 'express';
-import fetch from 'node-fetch';
 import reqeustpayment from './routes/payment.js';
 import cors from 'cors';
 import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookie from 'cookie-parser';
-// import cookieHelper from './utilit/cookieHelper.js';
+
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
 	origin: '*',
 	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
