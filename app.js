@@ -6,11 +6,16 @@ import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookie from 'cookie-parser';
-import cookieHelper from './utilit/cookieHelper.js';
+// import cookieHelper from './utilit/cookieHelper.js';
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
 	origin: '*',
 	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+const cookieHelper = (req, res, next) => {
+	console.log('cookies', req.cookies);
+	next();
 };
 const app = express();
 app.use(express.json());
