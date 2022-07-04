@@ -6,6 +6,10 @@ import { makeRequest } from '../controller/fetch.js';
 
 const router = express.Router();
 
+const cookieHelper = (req, res, next) => {
+	console.log('cookies', req.cookies);
+	next();
+};
 router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
@@ -28,7 +32,7 @@ router.post('/', async (req, res, next) => {
 		}
 	}
 });
-router.post('/validate_payment', async (req, res, next) => {
+router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, responseHash, UserField5 } = req.body;
 	console.log(UserField5);
 	let splitThem = UserField5.split('|');

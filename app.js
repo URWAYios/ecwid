@@ -13,17 +13,12 @@ const corsOptions = {
 	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-const cookieHelper = (req, res, next) => {
-	console.log('cookies', req.cookies);
-	next();
-};
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 app.use(cookie());
 app.use(cors(corsOptions));
-app.use(cookieHelper());
 app.use('/v1/urway/ecwid', reqeustpayment);
 app.get('/process_payment', (req, res) => {
 	const __filename = fileURLToPath(import.meta.url);
