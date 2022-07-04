@@ -29,7 +29,8 @@ router.post('/', async (req, res, next) => {
 			if (response.error) {
 				let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
-				res.status(200).redirect(`${response.returnUrl}?errorMsg=somthing_went_wrong`);
+				console.log('initial to pg failed');
+				res.status(200).redirect(`${response.returnUrl}&errorMsg=somthing_went_wrong`);
 			}
 			console.log(response);
 			if (!response.error) res.status(200).redirect(response);
@@ -54,7 +55,7 @@ router.post('/validate_payment', async (req, res, next) => {
 				// update the error before going to the payment page
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {
-					console.log(updateReqeust, updateReqeust.body);
+					console.log('to paid failed', updateReqeust, updateReqeust.body);
 				}
 				res.status(200).json({
 					result: 'success',
@@ -63,8 +64,8 @@ router.post('/validate_payment', async (req, res, next) => {
 				});
 			} else {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
-				console.log(updateReqeust);
-				let urlWithReason = `${fullReturnUrl}?errorMsg=somthing_went_wrong`;
+				console.log('transaction failed', updateReqeust);
+				let urlWithReason = `${fullReturnUrl}&errorMsg=somthing_went_wrong`;
 				res.status(400).json({
 					result: 'failure',
 					code: 400,
@@ -75,7 +76,7 @@ router.post('/validate_payment', async (req, res, next) => {
 			res.status(400).json({
 				result: 'failure',
 				code: 400,
-				urlToReturn: `${fullReturnUrl}?errorMsg=somthing_went_wrong`,
+				urlToReturn: `${fullReturnUrl}&errorMsg=somthing_went_wrong`,
 			});
 		}
 	} catch (err) {
