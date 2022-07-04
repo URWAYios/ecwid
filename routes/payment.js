@@ -13,7 +13,6 @@ const codes = JSON.parse(responseDes);
 // 	next();
 // };
 router.post('/', async (req, res, next) => {
-	console.log(codes);
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
@@ -37,8 +36,8 @@ router.post('/', async (req, res, next) => {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				console.log('initial to pg failed');
 				console.log(response.error);
-				let encode = encodeURI(`${response.returnUrl}&errorMsg=${codes[response.error]}`);
-				res.status(200).redirect(encode);
+				// let encode = encodeURI(`${response.returnUrl}&errorMsg=${codes[response.error]}`);
+				res.status(200);
 			}
 			console.log(response);
 			if (!response.error) res.status(200).redirect(response);
