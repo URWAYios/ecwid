@@ -43,9 +43,10 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	let referenceTransactionId = splitThem[1];
 	let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 	console.log('toPaid', updateUrl);
+	console.log('the cookie hash', req.cookies.merchantKey);
 	let hash = await makeHash(`${TranId}|${req.cookies.merchantkey}|${ResponseCode}|${amount}`);
-	console.log('myhash', hash);
-	console.log('serverhasg', responseHash);
+	console.log('myhash:', hash);
+	console.log('serverhash:', responseHash);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
 	try {
