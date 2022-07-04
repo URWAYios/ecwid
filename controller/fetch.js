@@ -17,13 +17,9 @@ const makeRequest = async (url, type, body) => {
 			body: re,
 		};
 	} else {
-		if (type != 'GET') {
-			let result = await res.json();
-			console.log(result);
-			return result;
-		} else {
-			return 'sucess';
-		}
+		let result = await res.json();
+		console.log(result);
+		return result;
 	}
 };
 
