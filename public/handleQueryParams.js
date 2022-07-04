@@ -15,6 +15,7 @@ const makeRequest = async (data) => {
 	});
 	let res = await sendReqest.json();
 	console.log(res);
+	window.location.href = res.urlToReturn;
 };
 console.log(paymentData);
 makeRequest(paymentData);
