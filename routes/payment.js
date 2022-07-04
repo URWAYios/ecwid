@@ -47,7 +47,8 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	console.log('the userfield hash', UserField3);
 	let mer = req.cookies.merchantkey;
 	console.log('checking the type :', typeof mer);
-	mer = mer.trim();
+	mer = mer + '';
+	console.log('checking the type :', typeof mer);
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
 	let hashc = await makeHash(`${TranId}|${mer}|${ResponseCode}|${amount}`);
 	console.log('myhashUserfield:', hash);
