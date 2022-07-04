@@ -10,7 +10,9 @@ const makeRequest = async (url, type, body) => {
 		body: JSON.stringify(body),
 	});
 	if (res.status !== 200) {
+		console.log(res);
 		let re = await res.json();
+		console.log(re);
 		return {
 			error: 'err',
 			code: res.status,
