@@ -45,7 +45,7 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	console.log('toPaid', updateUrl);
 	console.log('the cookie hash', req.cookies.merchantKey);
 	console.log('the userfield hash', UserField3);
-	let mer = req.cookies.merchantkey;
+	let mer = req.cookies.merchantKey;
 	console.log('checking the type :', typeof mer);
 	mer = mer + '';
 	mer = mer.trim();
