@@ -6,7 +6,7 @@ import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookie from 'cookie-parser';
-import cookieHelper from '../utilit/cookieHelper.js';
+import cookieHelper from './utilit/cookieHelper.js';
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
 	origin: '*',
