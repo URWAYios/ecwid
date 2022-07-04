@@ -3,13 +3,13 @@ import { EncryptionHelper, decryptData } from '../controller/decode.js';
 import { makePayment } from '../controller/makePayment.js';
 import makeHash from '../utilit/hash256.js';
 import { makeRequest } from '../controller/fetch.js';
-
+import cookieHelper from '../utilit/cookieHelper.js';
 const router = express.Router();
 
-const cookieHelper = (req, res, next) => {
-	console.log('cookies', req.cookies);
-	next();
-};
+// const cookieHelper = (req, res, next) => {
+// 	console.log('cookies', req.cookies);
+// 	next();
+// };
 router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
@@ -20,9 +20,11 @@ router.post('/', async (req, res, next) => {
 			let paymentData = JSON.parse(data);
 			const { referenceTransactionId } = paymentData.cart.order;
 			const { storeId, token } = paymentData;
+			const { merchantkey } = paymentData.merchantAppSettings;
 			res.cookie('refrenceTransactionId', referenceTransactionId);
 			res.cookie('storeId', storeId);
 			res.cookie('token', token);
+			res.cookie('merchant_key', merchantkey);
 			let response = await makePayment(paymentData);
 			console.log(response);
 			res.status(200).redirect(response);
@@ -39,9 +41,9 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	console.log(splitThem);
 	let token = splitThem[0];
 	let referenceTransactionId = splitThem[1];
-	let updateUrl = `https://app.ecwid.com/api/v3/${process.env.STORE_ID}/orders/${referenceTransactionId}?token=${token}`;
+	let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 	console.log('toPaid', updateUrl);
-	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
+	let hash = await makeHash(`${TranId}|${req.cookies.merchantkey}|${ResponseCode}|${amount}`);
 	console.log('myhash', hash);
 	console.log('serverhasg', responseHash);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
