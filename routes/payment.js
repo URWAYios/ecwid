@@ -3,6 +3,7 @@ import { EncryptionHelper, decryptData } from '../controller/decode.js';
 import { makePayment } from '../controller/makePayment.js';
 import makeHash from '../utilit/hash256.js';
 import { makeRequest } from '../controller/fetch.js';
+
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
@@ -13,6 +14,11 @@ router.post('/', async (req, res, next) => {
 				console.log('enter checking the typeof', typeof data);
 			}
 			let paymentData = JSON.parse(data);
+			const { referenceTransactionId } = paymentData.cart.order;
+			const { storeId, token } = paymentData;
+			res.cookie('refrenceTransactionId', referenceTransactionId);
+			res.cookie('storeId', storeId);
+			res.cookie('token', token);
 			let response = await makePayment(paymentData);
 			console.log(response);
 			res.status(200).redirect(response);
@@ -39,7 +45,7 @@ router.post('/validate_payment', async (req, res, next) => {
 	try {
 		if (hash === responseHash) {
 			if (Result === 'Successful' || ResponseCode === '000' || Result === 'Success') {
-				// update the
+				// update the error before going to the payment page
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'PAID' });
 				if (updateReqeust.error) {
 					console.log(updateReqeust, 'failed to update to paid');
