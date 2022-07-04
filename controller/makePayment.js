@@ -29,12 +29,19 @@ const makePayment = async (paymentData) => {
 			country: 'SA',
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
 			udf1: returnUrl,
-			udf3: merchantkey,
+			udf3: '',
 			udf4: '',
-			udf5: `${token}|${referenceTransactionId}`,
+			udf5: '',
 		};
 		let payRes = await makeRequest(paymentGateWayUrl, 'POST', paymentLoad);
 		// here I should also handle error in case the reqeust to the payemnt gateway get failed
+		if (payRes.payid == null || payRes.targetUrl == null || payRes.payId === '' || payRes.targetUrl === '') {
+			return {
+				error: payRes.responseCode,
+				returnUrl,
+			};
+		}
+		// end of handling initials request to the gateway
 		let redirectUrl = `${payRes.targetUrl}?paymentid=${payRes.payid}`;
 		return redirectUrl;
 		//end of payment request

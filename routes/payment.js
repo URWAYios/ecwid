@@ -26,8 +26,9 @@ router.post('/', async (req, res, next) => {
 			res.cookie('token', token);
 			res.cookie('merchantKey', merchantkey);
 			let response = await makePayment(paymentData);
+			if (response.error) res.status(200).redirect(`${response.returnUrl}?errorMsg=somthing_went_wrong`);
 			console.log(response);
-			res.status(200).redirect(response);
+			if (!response.error) res.status(200).redirect(response);
 		} catch (err) {
 			console.log('from payment route', err.message);
 			next(err);
@@ -35,20 +36,12 @@ router.post('/', async (req, res, next) => {
 	}
 });
 router.post('/validate_payment', cookieHelper, async (req, res, next) => {
-	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, UserField3, responseHash, UserField5 } = req.body;
-	console.log(UserField5);
-	let splitThem = UserField5.split('|');
-	console.log(splitThem);
-	let token = splitThem[0];
-	let referenceTransactionId = splitThem[1];
+	const { TranId, TrackId, amount, UserField1, Result, ResponseCode, responseHash } = req.body;
 	let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
-	console.log('toPaid', updateUrl);
 	let mer = req.cookies.merchantKey;
 	mer = mer + '';
 	mer = mer.trim();
 	let hash = await makeHash(`${TranId}|${mer}|${ResponseCode}|${amount}`);
-	console.log('myhashUserfield:', hash);
-	console.log('serverhash:', responseHash);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
 	try {
@@ -67,25 +60,26 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 			} else {
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
 				if (updateReqeust.error) {
-					console.log(updateReqeust.error, 'update to incomplete');
+					console.log(updateReqeust.error, updateReqeust.body);
 					res.status(400).json({
 						result: 'failure',
 						code: 400,
 						urlToReturn: fullReturnUrl,
 					});
+				} else {
+					let urlWithReason = `${fullReturnUrl}?errorMsg=somthing_went_wrong`;
+					res.status(400).json({
+						result: 'failure',
+						code: 400,
+						urlToReturn: urlWithReason,
+					});
 				}
-				let urlWithReason = `${fullReturnUrl}?errorMsg=somthing_went_wrong`;
-				res.status(400).json({
-					result: 'failure',
-					code: 400,
-					urlToReturn: urlWithReason,
-				});
 			}
 		} else {
 			res.status(400).json({
 				result: 'failure',
 				code: 400,
-				urlToReturn: UserField1,
+				urlToReturn: `${fullReturnUrl}?errorMsg=somthing_went_wrong`,
 			});
 		}
 	} catch (err) {
