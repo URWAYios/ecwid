@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
 			res.cookie('refrenceTransactionId', referenceTransactionId);
 			res.cookie('storeId', storeId);
 			res.cookie('token', token);
-			res.cookie('merchant_key', merchantkey);
+			res.cookie('merchantKey', merchantkey);
 			let response = await makePayment(paymentData);
 			console.log(response);
 			res.status(200).redirect(response);
