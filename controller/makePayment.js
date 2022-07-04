@@ -2,16 +2,16 @@ import { makeRequest } from './fetch.js';
 import makeHash from '../utilit/hash256.js';
 
 const makePayment = async (paymentData) => {
-	const { referenceTransactionId, id, total, email } = paymentData.cart.order;
+	const { id, total, email } = paymentData.cart.order;
 	const { terminalid, merchantkey, password, testmode } = paymentData.merchantAppSettings;
 	const { currency } = paymentData.cart;
 	console.log(paymentData);
-	const { returnUrl, storeId, token } = paymentData;
+	const { returnUrl } = paymentData;
 	// first update the order in the ecwid admin panel
-	let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
-	console.log('toawaiting payment', updateUrl);
+	// let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
+	// console.log('toawaiting payment', updateUrl);
 	try {
-		let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
+		// let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
 		//end of updating the order to AWAITING_PAYMENT
 		//making a payment reqeust to urway
 		let paymentGateWayUrl = testmode == 'true' ? process.env.TEST : process.env.LIVE;
