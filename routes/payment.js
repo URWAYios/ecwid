@@ -7,11 +7,13 @@ import responseDes from '../utilit/responseCodes.js';
 const router = express.Router();
 
 const codes = JSON.parse(responseDes);
+
 // const cookieHelper = (req, res, next) => {
 // 	console.log('cookies', req.cookies);
 // 	next();
 // };
 router.post('/', async (req, res, next) => {
+	console.log(codes);
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
@@ -28,6 +30,8 @@ router.post('/', async (req, res, next) => {
 			res.cookie('merchantKey', merchantkey);
 			let response = await makePayment(paymentData);
 			console.log(response);
+			console.log('checking the error code', response.error);
+			console.log('checking the type', typeof response.error);
 			if (response.error) {
 				let updateUrl = `https://app.ecwid.com/api/v3/${req.cookies.storeId}/orders/${req.cookies.refrenceTransactionId}?token=${req.cookies.token}`;
 				updateReqeust = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'INCOMPLETE' });
