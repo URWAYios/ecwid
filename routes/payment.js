@@ -45,13 +45,10 @@ router.post('/validate_payment', cookieHelper, async (req, res, next) => {
 	console.log('toPaid', updateUrl);
 	console.log('the cookie hash', req.cookies.merchantKey);
 	console.log('the userfield hash', UserField3);
-	console.log('the value need to be hashed from Userfield :', `${TranId}|${UserField3}|${ResponseCode}|${amount}`);
-	console.log(
-		'the value need to be hashed from cookies :',
-		`${TranId}|${req.cookies.merchantKey}|${ResponseCode}|${amount}`
-	);
 	let hash = await makeHash(`${TranId}|${UserField3}|${ResponseCode}|${amount}`);
-	console.log('myhash:', hash);
+	let hashc = await makeHash(`${TranId}|${req.cookies.merchantkey}|${ResponseCode}|${amount}`);
+	console.log('myhashUserfield:', hash);
+	console.log('myhashcookies:', hashc);
 	console.log('serverhash:', responseHash);
 	let fullReturnUrl = `${UserField1}&clientId=${process.env.CLIENT_KEY}`;
 	let updateReqeust;
