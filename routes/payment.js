@@ -4,21 +4,14 @@ import { makePayment } from '../controller/makePayment.js';
 import makeHash from '../utilit/hash256.js';
 import { makeRequest } from '../controller/fetch.js';
 import responseDes from '../utilit/responseCodes.js';
-const router = express.Router();
 
+const router = express.Router();
 const codes = JSON.parse(responseDes);
 
-// const cookieHelper = (req, res, next) => {
-// 	console.log('cookies', req.cookies);
-// 	next();
-// };
 router.post('/', async (req, res, next) => {
 	if (req.body) {
 		try {
 			let data = await decryptData(process.env.CLIENT_SECRET, req.body.data);
-			if (typeof data == 'object') {
-				console.log('enter checking the typeof', typeof data);
-			}
 			let paymentData = JSON.parse(data);
 			const { referenceTransactionId } = paymentData.cart.order;
 			const { storeId, token } = paymentData;
