@@ -1,7 +1,7 @@
 // Initialize the application
 const save = document.querySelector('#save');
 EcwidApp.init({
-	app_id: 'custom-app-76468716-1', // use your application namespace
+	app_id: 'custom-app-64158187-1', // use your application namespace
 	autoloadedflag: true,
 	autoheight: true,
 });
