@@ -9,7 +9,6 @@ const makePayment = async (paymentData) => {
 	const { returnUrl } = paymentData;
 	// first update the order in the ecwid admin panel
 	// let updateUrl = `https://app.ecwid.com/api/v3/${storeId}/orders/${referenceTransactionId}?token=${token}`;
-	// console.log('toawaiting payment', updateUrl);
 	try {
 		// let res = await makeRequest(updateUrl, 'PUT', { paymentStatus: 'AWAITING_PAYMENT' });
 		//end of updating the order to AWAITING_PAYMENT
@@ -28,6 +27,7 @@ const makePayment = async (paymentData) => {
 			customerEmail: email,
 			country: 'SA',
 			udf2: 'https://urway-ecwid.herokuapp.com/process_payment',
+			// above will be the based on your domain name
 			udf1: returnUrl,
 			udf3: '',
 			udf4: '',

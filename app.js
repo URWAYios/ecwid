@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 app.use(cookie());
 app.use(cors(corsOptions));
+
 app.use('/v1/urway/ecwid', reqeustpayment);
 app.get('/process_payment', (req, res) => {
 	const __filename = fileURLToPath(import.meta.url);
@@ -26,13 +27,7 @@ app.get('/process_payment', (req, res) => {
 	// res.sendFile('/public/process.html', path.dirname(__filename));
 	res.sendFile(path.join(path.dirname(__filename), './public', 'process.html'));
 });
-let value = '601';
-app.get('/json_data', (req, res) => {
-	console.log(codes);
-	res.send(codes[value]);
-});
 app.use((err, req, res, next) => {
-	console.error('final exit route', err);
 	res.status(500).json({
 		error: err.message || 'unknown error',
 		errrCode: err.status || 500,
