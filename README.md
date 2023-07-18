@@ -15,9 +15,9 @@
       ```
       app-id = same as the client_key
       ```
-- now we will have to host the app in any hosting privder as the merchant like
-- after that we will contact ecwid support team to add urway for this store
-- we wil mention the below in the email
+- now need to host the app in any hosting privder.
+- after that need to contact ecwid support team to add urway for this store
+- Need to mention the below in the email
   - url that we want the data to be sent to from eciwd side
     - it will be always like https://domainName/v1/urway/ecwid
   - the main url which is https://domainName
