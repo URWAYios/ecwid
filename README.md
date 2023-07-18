@@ -1,12 +1,12 @@
 # adding urway as a payment provider in ecwid
 
-- to add urway in eciwd we will have to get access to merchant accont
-- after that you will have to do some changes in the repo using
-  1. cloning the reop
+- To add URWAY plugin in eciwd we will have to get access to merchant account
+- after that you will have to do  changes in the repo using
+  1. cloning the repo
   ```
   git clone https://github.com/URWAYios/ecwid.git
   ```
-  2.  after cloning the reope go to env file and add the customer app credentials
+  2.  after cloning the repo go to env file and add the customer app credentials
       ```
       CLIENT_KEY= you will find in ecwid account settings
       CLIENT_SECRET= you will find in ecwid account settings
