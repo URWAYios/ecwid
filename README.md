@@ -1,4 +1,4 @@
-# adding urway as a payment provider in ecwid
+# Adding URWAY as a Payment Provider in ECWID
 
 - To add URWAY plugin in eciwd we will have to get access to merchant account
 - after that you will have to do  changes in the repo using
